@@ -30,3 +30,17 @@ h1 {
 	color:green;
 	font-size:100px;
 }
+
+p {
+	margin-top:0px;
+	margin-bottom:20px;
+}
+
+img {
+	width:400px;
+	height:250px;
+}
+
+body {
+	background-color:lavender;
+}

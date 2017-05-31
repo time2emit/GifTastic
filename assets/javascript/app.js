@@ -1,5 +1,5 @@
 // Initial array of US national parks
-var parks = ['Yosemite', 'Yellowstone', 'Grand Canyon', 'Tetons'];
+var parks = ['Acadia', 'Yellowstone', 'Grand Canyon', 'Grand Teton', 'Everglades', 'Denali', 'Glacier', 'Big Bend', 'Canyonlands', 'Sequoia', 'Crater Lake'];
 
 // Generic function for capturing the park name from the data-attribute
       function alertParkName() {
@@ -9,6 +9,9 @@ var parks = ['Yosemite', 'Yellowstone', 'Grand Canyon', 'Tetons'];
 
 // Function for dumping the JSON content for each button into the div
       function displayParkInfo() {
+      	//Empty the div with id park view
+		$("#park-view").empty();
+		//variables
         var parkName = $(this).attr("data-name");
         var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + parkName + "&limit=10&api_key=dc6zaTOxFJmzC";
         
@@ -18,9 +21,11 @@ var parks = ['Yosemite', 'Yellowstone', 'Grand Canyon', 'Tetons'];
           url: queryURL,
           method: "GET"
         }).done(function(response) {
+        	console.log(response);
         	for (var z = 0; z < 10; z++){
         		var parkDiv = $('<div class="USParks">');
-        		var parkImageURL = response.data[z].images.original_still.url;
+        		// var parkImageURL = response.data[z].images.original_still.url;
+        		var parkImageURL = response.data[z].images.original.url;
         		var imgTag = $("<img>").attr("src",parkImageURL);
         		parkDiv.append(imgTag);
         		$("#park-view").append(imgTag);
@@ -32,20 +37,9 @@ var parks = ['Yosemite', 'Yellowstone', 'Grand Canyon', 'Tetons'];
         	}
 
         	// console.log(response);
-        	// console.log(response.data[0].embed_url);
         	// console.log(response.data[0].images.original);
         	// console.log(response.data[0].images.original_still.url);
-        	// var parkDiv = $('<div class="USParks">');
-        	// var rating = response.data[0].rating;
-        	// var para = $("<p>").text("Rating: " + rating);
-        	// var gif = $("<img src=" + response.data[0].embed_url + ">");
-        	// console.log(gif);
-        	// parkDiv.append(para);
-        	// parkDiv.append(gif);
-        	// $("#park-view").append(para);
-        	// $("#park-view").append(gif);
-
-          //$("#park-view").html(JSON.stringify(response));
+        	
           renderButtons();
         });
       }
@@ -57,7 +51,7 @@ function renderButtons() {
     // Looping through the array of parks
     for (var z = 0; z < parks.length; z++) {
     	var a = $("<button>");
-        a.addClass("image");
+        a.addClass("parkImage");
         a.attr("data-name", parks[z]);
         a.text(parks[z]);
         $("#displayButtons").append(a);
@@ -75,6 +69,6 @@ function renderButtons() {
         renderButtons();
       });
       
-      $(document).on("click", ".image", displayParkInfo);
-      // Calling the renderButtons function at least once to display the initial list of movies
+      $(document).on("click", ".parkImage", displayParkInfo);
+      // Calling the renderButtons function at least once to display the initial list of parks
       renderButtons();
