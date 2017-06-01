@@ -21,28 +21,51 @@ var parks = ['Acadia', 'Yellowstone', 'Grand Canyon', 'Grand Teton', 'Everglades
           url: queryURL,
           method: "GET"
         }).done(function(response) {
-        	console.log(response);
+        	// console.log(response);
         	for (var z = 0; z < 10; z++){
         		var parkDiv = $('<div class="USParks">');
         		// var parkImageURL = response.data[z].images.original_still.url;
         		var parkImageURL = response.data[z].images.original.url;
         		var imgTag = $("<img>").attr("src",parkImageURL);
+        		imgTag.addClass("fullGIF");
+        		imgTag.attr("data-still", response.data[z].images.original_still.url);
+        		imgTag.attr("data-moving", response.data[z].images.original.url);
+        		imgTag.attr("data-clicked", false);
         		parkDiv.append(imgTag);
         		$("#park-view").append(imgTag);
         		var rating = response.data[z].rating;
         		var para = $("<p>").text("Rating: " + rating);
         		parkDiv.append(para);
         		$("#park-view").append(para);
-        		console.log(response.data[z]);
+        		// console.log(response.data[z]);
         	}
 
-        	// console.log(response);
-        	// console.log(response.data[0].images.original);
-        	// console.log(response.data[0].images.original_still.url);
-        	
           renderButtons();
         });
       }
+
+ 
+ $(document).on("click", ".fullGIF", function(){
+ 	console.log(this);
+ 	var still = $(this).attr("data-still");
+ 	var moving = $(this).attr("data-moving");
+ 	var clicked = $(this).attr("data-clicked");
+ 	// console.log(still);
+ 	// console.log(moving);
+ 	console.log(clicked);
+
+ 	if (clicked == "false") {
+ 		console.log(" hey i'm clicked");
+
+ 		$(this).attr("src", still);
+ 		$(this).attr("data-clicked", true);
+ 		
+ 	} else {
+ 		$(this).attr("src", moving);
+ 		$(this).attr("data-clicked", false);
+ 	}
+
+ });
 
 // Function for displaying park data
 function renderButtons() {
